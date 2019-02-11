@@ -1,0 +1,43 @@
+{% set version = "1.5.1" %}
+{% set version_underscore = "1_5_1" %}
+{% set vs_version = "2015" %}
+
+package:
+  name: filegdb-api
+  version: {{ version }}
+
+source:
+  url: https://github.com/Esri/file-geodatabase-api/raw/master/FileGDB_API_{{ version }}/FileGDB_API_{{ version_underscore }}-VS{{ vs_version }}.zip
+  sha256: ee2939591db411a6d16137cfbf6cb1333da1911d14376298d60c2ce6bcb99d1c
+
+build:
+  number: 1002
+  # For now...
+  skip: True  # [not win]
+
+requirements:
+  host:
+
+test:
+  commands:
+    - if not exist %PREFIX%\\Library\\bin\\FileGDBAPI.dll exit 1    # [win]
+    - if not exist %PREFIX%\\Library\\lib\\FileGDBAPI.lib exit 1    # [win]
+    - if not exist %PREFIX%\\Library\\include\\filegdb\\FileGDBAPI.h exit 1    # [win]
+
+about:
+  home: https://www.esri.com
+  license: Apache-2.0
+  license_url: http://www.apache.org/licenses/LICENSE-2.0
+  # These are the restrictions *beyond* Apache 2.0, mostly indemnifications
+  license_file: license/userestrictions.txt
+  summary: File collection that can store, query, and manage spatial/nonspatial data.
+  description: |
+    A file geodatabase is a collection of files in a folder on disk that can
+    store, query, and manage both spatial and nonspatial data. File
+    geodatabases are made up of seven system tables plus user data.
+  doc_url: http://desktop.arcgis.com/en/arcmap/latest/manage-data/administer-file-gdbs/file-geodatabases.htm
+  dev_url: https://github.com/Esri/file-geodatabase-api
+
+extra:
+  recipe-maintainers:
+    - dakcarto
